@@ -68,8 +68,9 @@ class DevRAIApplication:
                 if await client.is_ready():
                     logger.info("Weaviate connection successful and ready")
         except Exception as e:
-            logger.error(f"Failed to connect to Weaviate: {e}")
-            raise
+            logger.warning(f"Failed to connect to Weaviate during startup: {e}")
+            logger.warning("Continuing without Weaviate - some features may not work")
+            # Don't raise - allow backend to start even if Weaviate is unavailable
 
     async def stop_background_tasks(self):
         """Stops all background tasks and connections gracefully."""
